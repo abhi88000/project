@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:project/backned.dart';
+import 'package:project/dropdown.dart';
 import 'package:project/front_page.dart';
+// import 'package:project/table.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:project/testing.dart';
+import 'package:splashscreen/splashscreen.dart';
 import 'package:project/table.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -25,24 +32,24 @@ class _MyAppState extends State<MyApp> {
       .snapshots();
   @override
   Widget build(BuildContext context) {
+    // return Backend();
+    // return Dropdown();
+    // return FrontPage();
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
-        appBar: new AppBar(),
-        body: StreamBuilder(
-          stream: collectionReference.snapshots(),
-          builder:
-              (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (snapshot.hasData) {
-              return ListView.builder(
-                  itemCount: snapshot.data.docs.length,
-                  itemBuilder: (context, int index) {
-                    return Text(snapshot.data.docs[index]['teacher']);
-                    // return Text("numijjjm");
-                  });
-            }
-            return LinearProgressIndicator();
-          },
-        ),
+       body: SafeArea(
+         child: new SplashScreen(
+  seconds: 8,
+  navigateAfterSeconds: new Ontop(),
+  title: new Text('CAMPUS NAVIAGTION MIET', style: TextStyle(fontSize: 25, fontStyle: FontStyle.italic,),),
+  image: new Image.asset('mietlogo.png'),
+  backgroundColor: Colors.white,
+  styleTextUnderTheLoader: new TextStyle(),
+  photoSize: 100.0,
+  loaderColor: Colors.red[900]
+),
+       ),
       ),
     );
   }

@@ -3,8 +3,6 @@ import 'package:flutter/services.dart';
 
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 
-void main() => runApp(Dropdown());
-
 class Dropdown extends StatefulWidget {
   @override
   _DropdownState createState() => _DropdownState();
@@ -74,34 +72,39 @@ class _DropdownState extends State<Dropdown> {
         appBar: AppBar(
           title: const Text(appTitle),
         ),
-        body: Column( 
-          children: widgets
-              .map((k, v) {
-                return (MapEntry(
-                    k,
-                    Center(
-                        child: Card(
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(10),
-                              side: BorderSide(
-                                color: Colors.grey,
-                                width: 1.0,
-                              ),
-                            ),
-                            margin: EdgeInsets.all(20),
-                            child: Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Column(
-                                children: <Widget>[
-                                  Text("$k:"),
-                                  v,
-                                ],
-                              ),
-                            )))));
-              })
-              .values
-              .toList()
+        body: LimitedBox(
+          child: Column(
+            children: [
+              Column(
+                  children: widgets
+                      .map((k, v) {
+                        return (MapEntry(
+                            k,
+                            Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                  side: BorderSide(
+                                    color: Colors.blueAccent,
+                                    width: 5.0,
+                                  ),
+                                ),
+                                margin: EdgeInsets.all(20),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Column(
+                                    children: <Widget>[
+                                      Text("$k:"),
+                                      v,
+                                    ],
+                                  ),
+                                ))));
+                      })
+                      .values
+                      .toList()),
+              new Text("hello")
+            ],
           ),
+        ),
       ),
     );
   }
