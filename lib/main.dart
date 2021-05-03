@@ -7,6 +7,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:project/testing.dart';
 import 'package:splashscreen/splashscreen.dart';
+import 'package:project/table.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,6 +23,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  final CollectionReference collectionReference =
+      FirebaseFirestore.instance.collection("college");
+  // final FirebaseFirestore db = FirebaseFirestore.instance.collection("collection");
+  Stream<DocumentSnapshot> snapshot = FirebaseFirestore.instance
+      .collection("college")
+      .doc('Block A')
+      .snapshots();
   @override
   Widget build(BuildContext context) {
     // return Backend();
