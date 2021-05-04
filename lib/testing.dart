@@ -1,5 +1,7 @@
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:popup_card/popup_card.dart';
 import 'package:flutter_mobile_vision/flutter_mobile_vision.dart';
@@ -17,16 +19,7 @@ class _OntopState extends State<Ontop> {
   static String destination;
   int _cameraOcr = FlutterMobileVision.CAMERA_BACK;
   String _textValue = "PRESS THE CAMERA BUTTON";
-  String desti;
-  void initState() {
-    super.initState();
-    setState(() {
-      var firebase = FirebaseFirestore.instance
-          .collection("college")
-          .doc("A-101")
-          .snapshots();
-    });
-  }
+  String desti = "A-102";
 
   String room_no, adf;
   List<String> rooms = [
@@ -34,7 +27,7 @@ class _OntopState extends State<Ontop> {
     "A-303_IBM-Lab_Director",
     "A-205_CRIE-Lab",
     "A-208_Manager-CSDIS",
-    "A-103_Admin-Offiice",
+    "A-102_Admin-Offiice",
     "A-207_IQAC",
   ];
 
@@ -63,31 +56,38 @@ class _OntopState extends State<Ontop> {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
             elevation: 3,
             tag: 'test',
-            child: new StreamBuilder(
-                stream: FirebaseFirestore.instance
-                    .collection("college")
-                    .doc("A-101")
-                    .snapshots(),
-                builder: (context, snapshot) {
-                  // if (!snapshot.hasData) {
-                  //   return new CircularProgressIndicator();
-                  // }
-                  var userDocument = snapshot.data;
-                  print(destination);
-                  return Column(
+          child:FutureBuilder<DocumentSnapshot>(
+      future: FirebaseFirestore.instance.collection("college").doc("A-102").get(),
+      builder:
+          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+
+        if (snapshot.hasError) {
+          return Text("Something went wrong");
+        }
+        
+        if (snapshot.hasData && !snapshot.data.exists) {
+          return Text("Document does not exist");
+        }
+
+        if (snapshot.connectionState == ConnectionState.done) {
+          Map<String, dynamic> data = snapshot.data.data();
+          return Column(
                     children: [
-                      inside("Block", userDocument['Block']),
-                      inside("Room no", userDocument['room no']),
-                      inside("Teacher ", userDocument['teacher']),
-                      inside("Room name ", userDocument['room name']),
+                      inside("Block", data['Block']),
+                      inside("Room no", data['room no']),
+                      inside("Teacher ", data['teacher']),
+                      inside("Room name ", data['room name']),
                       inside("Description of the destination ",
-                          userDocument['description']),
+                          data['description']),
                       new TextButton(
                           onPressed: null, child: new Text("Confirm"))
                     ],
-                  );
-                }),
-          ),
+                  );//Text("Full Name: ${data["room no"]} ${data['teacher']}");
+        }
+
+        return Text("loading");
+      },
+    ),),
         ),
       ),
     );
@@ -167,6 +167,7 @@ class _OntopState extends State<Ontop> {
               height: 70,
             ),
             DropDownField(
+              strict: false,
               onValueChanged: (dynamic value) {
                 room_no = _textValue;
                 destination = value.toString().substring(0, 5);
@@ -187,31 +188,3 @@ class _OntopState extends State<Ontop> {
   }
 }
 
-// class Backe extends StatefulWidget {
-//   // final Dropdown d = new Dropdown();
-//   String get abc => Dropdown.destination;
-//   // String c = abc.toString();
-
-//   @override
-//   _BackeState createState() => _BackeState();
-// }
-
-// class _BackeState extends State<Backe> {
-//   @override
-//   Widget build(BuildContext context,) {
-//     return new StreamBuilder(
-//         stream: FirebaseFirestore.instance
-//             .collection("A-101")
-//             .doc("A-101")
-//             .snapshots(),
-//         builder: (context, snapshot) {
-//           if (!snapshot.hasData) {
-//             return new CircularProgressIndicator();
-//           }
-//           var userDocument = snapshot.data;
-//           //desti = userDocument["teacher"];
-//           // print(abc);
-//           return new Text(userDocument['description']);
-//         });
-//   }
-// }
