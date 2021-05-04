@@ -21,7 +21,10 @@ class _OntopState extends State<Ontop> {
   void initState() {
     super.initState();
     setState(() {
-      var firebase = FirebaseFirestore.instance.collection("college").doc("A-101").snapshots();
+      var firebase = FirebaseFirestore.instance
+          .collection("college")
+          .doc("A-101")
+          .snapshots();
     });
   }
 
@@ -38,6 +41,7 @@ class _OntopState extends State<Ontop> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: qwerty(context),
         floatingActionButton: PopupItemLauncher(
@@ -62,8 +66,8 @@ class _OntopState extends State<Ontop> {
             child: new StreamBuilder(
                 stream: FirebaseFirestore.instance
                     .collection("college")
-                    .doc("A-101").snapshots(),
-                    
+                    .doc("A-101")
+                    .snapshots(),
                 builder: (context, snapshot) {
                   // if (!snapshot.hasData) {
                   //   return new CircularProgressIndicator();
@@ -78,7 +82,7 @@ class _OntopState extends State<Ontop> {
                       inside("Room name ", userDocument['room name']),
                       inside("Description of the destination ",
                           userDocument['description']),
-                      new TextButton( 
+                      new TextButton(
                           onPressed: null, child: new Text("Confirm"))
                     ],
                   );
@@ -100,7 +104,9 @@ class _OntopState extends State<Ontop> {
         new Text(
           b,
           style: TextStyle(
-              fontStyle: FontStyle.normal, fontSize: 15, color: Colors.orange[900]),
+              fontStyle: FontStyle.normal,
+              fontSize: 15,
+              color: Colors.orange[900]),
         ),
         new SizedBox(
           height: 20,
@@ -127,57 +133,54 @@ class _OntopState extends State<Ontop> {
   }
 
   Widget qwerty(BuildContext context) {
-    return MaterialApp(
-      home: SafeArea(
-        child: Scaffold(
-          appBar: new AppBar(
-            backgroundColor: Colors.blueGrey,
-            title: new Text("SELECT FIELDS"),
-          ),
-          body: Padding(
-            padding: const EdgeInsets.all(18.0),
-            child:
-                Wrap(alignment: WrapAlignment.spaceEvenly, children: <Widget>[
-              DropDownField(
-                strict: false,
-                itemsVisibleInDropdown: 2,
-                onValueChanged: (dynamic value) {
-                  room_no = value;
-                },
-                value: room_no,
-                labelText: 'Current Room no',
-                items: rooms,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  new Text(
-                    "Press to Detect Current location via Camera",
-                    style: TextStyle(fontStyle: FontStyle.italic),
-                  ),
-                  new IconButton(
-                      icon: new Icon(Icons.camera_enhance), onPressed: _read),
-                ],
-              ),
-              new SizedBox(
-                height: 70,
-              ),
-              DropDownField(
-                onValueChanged: (dynamic value) {
-                  room_no = _textValue;
-                  destination = value.toString().substring(0, 5);
-                  adf = destination.toString();
-                  print(destination);
-                },
-                value: room_no,
-                labelText: 'Destination Room no',
-                items: rooms,
-              ),
-              new SizedBox(
-                height: 20,
-              ),
-            ]),
-          ),
+    return SafeArea(
+      child: Scaffold(
+        appBar: new AppBar(
+          backgroundColor: Colors.blueGrey,
+          title: new Text("SELECT FIELDS"),
+        ),
+        body: Padding(
+          padding: const EdgeInsets.all(18.0),
+          child: Wrap(alignment: WrapAlignment.spaceEvenly, children: <Widget>[
+            DropDownField(
+              strict: false,
+              itemsVisibleInDropdown: 2,
+              onValueChanged: (dynamic value) {
+                room_no = value;
+              },
+              value: room_no,
+              labelText: 'Current Room no',
+              items: rooms,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                new Text(
+                  "Press to Detect Current location via Camera",
+                  style: TextStyle(fontStyle: FontStyle.italic),
+                ),
+                new IconButton(
+                    icon: new Icon(Icons.camera_enhance), onPressed: _read),
+              ],
+            ),
+            new SizedBox(
+              height: 70,
+            ),
+            DropDownField(
+              onValueChanged: (dynamic value) {
+                room_no = _textValue;
+                destination = value.toString().substring(0, 5);
+                adf = destination.toString();
+                print(destination);
+              },
+              value: room_no,
+              labelText: 'Destination Room no',
+              items: rooms,
+            ),
+            new SizedBox(
+              height: 20,
+            ),
+          ]),
         ),
       ),
     );

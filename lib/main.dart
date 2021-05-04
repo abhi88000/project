@@ -23,13 +23,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final CollectionReference collectionReference =
-      FirebaseFirestore.instance.collection("college");
-  // final FirebaseFirestore db = FirebaseFirestore.instance.collection("collection");
-  Stream<DocumentSnapshot> snapshot = FirebaseFirestore.instance
-      .collection("college")
-      .doc('Block A')
-      .snapshots();
   @override
   Widget build(BuildContext context) {
     // return Backend();
@@ -40,14 +33,14 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
        body: SafeArea(
          child: new SplashScreen(
-  seconds: 8,
-  navigateAfterSeconds: new Ontop(),
-  title: new Text('CAMPUS NAVIAGTION MIET', style: TextStyle(fontSize: 25, fontStyle: FontStyle.italic,),),
-  image: new Image.asset('mietlogo.png'),
-  backgroundColor: Colors.white,
-  styleTextUnderTheLoader: new TextStyle(),
-  photoSize: 100.0,
-  loaderColor: Colors.red[900]
+          seconds: 8,
+          navigateAfterSeconds: new Ontop(),
+          title: new Text('CAMPUS NAVIAGTION MIET', style: TextStyle(fontSize: 25, fontStyle: FontStyle.italic,),),
+          image: new Image.asset('mietlogo.png'),
+          backgroundColor: Colors.white,
+          styleTextUnderTheLoader: new TextStyle(),
+          photoSize: 100.0,
+          loaderColor: Colors.red[900]
 ),
        ),
       ),
