@@ -8,17 +8,18 @@ import 'package:dropdownfield/dropdownfield.dart';
 import 'dart:async';
 
 class Ontop extends StatefulWidget {
-  static String destination = 'A-101';
+  
 
   @override
   _OntopState createState() => _OntopState();
 }
 
 class _OntopState extends State<Ontop> {
-  static String destination;
+ 
   int _cameraOcr = FlutterMobileVision.CAMERA_BACK;
   String _textValue = "PRESS THE CAMERA BUTTON";
-  String desti = "A-101";
+  String desti = "A-103";
+String destination = 'A-103';
 
   String room_no, adf;
   List<String> rooms = [
@@ -30,7 +31,9 @@ class _OntopState extends State<Ontop> {
     "A-208_MANAGER_CSDIS",
     "A-303_MEETING_ROOM",
     "A-304_KARAN_KHAJURIA"
-        "A-309_ANAND_KUMAR_GUPTA"
+    "A-309_ANAND_KUMAR_GUPTA",
+
+
   ];
 
   @override
@@ -42,7 +45,7 @@ class _OntopState extends State<Ontop> {
         floatingActionButton: PopupItemLauncher(
           tag: 'test',
           child: Material(
-            color: Colors.white,
+            color: Colors.orange[300],
             elevation: 2,
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
@@ -61,7 +64,7 @@ class _OntopState extends State<Ontop> {
             child: FutureBuilder<DocumentSnapshot>(
               future: FirebaseFirestore.instance
                   .collection("college")
-                  .doc("A-101")
+                  .doc(destination)
                   .get(),
               builder: (BuildContext context,
                   AsyncSnapshot<DocumentSnapshot> snapshot) {
@@ -94,6 +97,7 @@ class _OntopState extends State<Ontop> {
                       inside("Teacher ", data['teacher']),
                       inside("Description", data['description']),
                       new TextButton(
+                        style: ButtonStyle(),
                           onPressed: () {
                             Navigator.push(
                               context,
