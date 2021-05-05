@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -9,7 +8,7 @@ import 'package:dropdownfield/dropdownfield.dart';
 import 'dart:async';
 
 class Ontop extends StatefulWidget {
-  static String destination = 'A-303';
+  static String destination = 'A-101';
 
   @override
   _OntopState createState() => _OntopState();
@@ -19,16 +18,19 @@ class _OntopState extends State<Ontop> {
   static String destination;
   int _cameraOcr = FlutterMobileVision.CAMERA_BACK;
   String _textValue = "PRESS THE CAMERA BUTTON";
-  String desti = "A-102";
+  String desti = "A-101";
 
   String room_no, adf;
   List<String> rooms = [
-    "A-101_Meeting_Room ",
-    "A-303_IBM-Lab_Director",
-    "A-205_CRIE-Lab",
-    "A-208_Manager-CSDIS",
-    "A-102_Admin-Offiice",
-    "A-207_IQAC",
+    "A-101_Principal ",
+    "A-103_Administration",
+    "A-204_SMSI_Sahil_Sawhney",
+    "A-205_CRIE_LAB",
+    "A-206_IBM-LAB",
+    "A-208_MANAGER_CSDIS",
+    "A-303_MEETING_ROOM",
+    "A-304_KARAN_KHAJURIA"
+        "A-309_ANAND_KUMAR_GUPTA"
   ];
 
   @override
@@ -56,41 +58,64 @@ class _OntopState extends State<Ontop> {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(32)),
             elevation: 3,
             tag: 'test',
-          child:FutureBuilder<DocumentSnapshot>(
-      future: FirebaseFirestore.instance.collection("college").doc("A-102").get(),
-      builder:
-          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+            child: FutureBuilder<DocumentSnapshot>(
+              future: FirebaseFirestore.instance
+                  .collection("college")
+                  .doc("A-101")
+                  .get(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<DocumentSnapshot> snapshot) {
+                if (snapshot.hasError) {
+                  return Text("Something went wrong");
+                }
 
-        if (snapshot.hasError) {
-          return Text("Something went wrong");
-        }
-        
-        if (snapshot.hasData && !snapshot.data.exists) {
-          return Text("Document does not exist");
-        }
+                if (snapshot.hasData && !snapshot.data.exists) {
+                  return Text("Document does not exist");
+                }
 
-        if (snapshot.connectionState == ConnectionState.done) {
-          Map<String, dynamic> data = snapshot.data.data();
-          return Column(
+                if (snapshot.connectionState == ConnectionState.done) {
+                  Map<String, dynamic> data = snapshot.data.data();
+                  return Column(
                     children: [
-                      inside("Block", data['Block']),
+                      new Text(
+                        "CONFIRM DESTINATION ?",
+                        style: TextStyle(fontSize: 30, color: Colors.black),
+                      ),
+                      new Divider(
+                        thickness: 3,
+                        color: Colors.orange[900],
+                      ),
+                      new SizedBox(
+                        height: 20,
+                      ),
+                      inside("Block", data['block']),
+                      inside("Floor", data['floor']),
                       inside("Room no", data['room no']),
                       inside("Teacher ", data['teacher']),
-                      inside("Room name ", data['room name']),
-                      inside("Description of the destination ",
-                          data['description']),
+                      inside("Description", data['description']),
                       new TextButton(
-                          onPressed: null, child: new Text("Confirm"))
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => navig()),
+                            );
+                          },
+                          child: new Text("Confirm"))
                     ],
-                  );//Text("Full Name: ${data["room no"]} ${data['teacher']}");
-        }
+                  ); //Text("Full Name: ${data["room no"]} ${data['teacher']}");
+                }
 
-        return Text("loading");
-      },
-    ),),
+                return Text("loading");
+              },
+            ),
+          ),
         ),
       ),
     );
+  }
+
+  Widget navig() {
+    return MaterialApp(home: Scaffold(body: Center(child: Text("Routes will be shown here"))));
   }
 
   Widget inside(String a, String b) {
@@ -99,13 +124,13 @@ class _OntopState extends State<Ontop> {
         new Text(
           a,
           style: TextStyle(
-              fontStyle: FontStyle.italic, fontSize: 13, color: Colors.brown),
+              fontStyle: FontStyle.italic, fontSize: 18, color: Colors.brown),
         ),
         new Text(
           b,
           style: TextStyle(
               fontStyle: FontStyle.normal,
-              fontSize: 15,
+              fontSize: 25,
               color: Colors.orange[900]),
         ),
         new SizedBox(
@@ -187,4 +212,3 @@ class _OntopState extends State<Ontop> {
     );
   }
 }
-

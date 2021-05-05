@@ -33,7 +33,7 @@ class _MyAppState extends State<MyApp> {
       home: Scaffold(
        body: SafeArea(
          child: new SplashScreen(
-          seconds: 0,
+          seconds: 2,
           navigateAfterSeconds: new Ontop(),
           title: new Text('CAMPUS NAVIAGTION MIET', style: TextStyle(fontSize: 25, fontStyle: FontStyle.italic,),),
           image: new Image.asset('mietlogo.png'),
